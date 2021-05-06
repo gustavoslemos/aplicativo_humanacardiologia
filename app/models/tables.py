@@ -9,7 +9,7 @@ class Exame(db.Model):
     __tablename__ = "exame"
 
     id          = Column(Integer, autoincrement=True,primary_key=True)
-    cpf         = Column(String(14),nullable=False,unique=True)
+    cpf         = Column(String(14),nullable=False)
     video       = Column(String,nullable=False)
     nome        = Column(String,nullable=False)
     password    = Column(String,nullable=False)
@@ -112,8 +112,6 @@ class DadosPacienteGlicemia(db.Model):
     cafe                  = Column(Boolean)
     almoco                = Column(Boolean)
     janta                 = Column(Boolean)
-    #Exame                 = db.relationship("Exame",foreign_keys=[cpf],primaryjoin='Exame.cpf == DadosPacientePressao.cpf')
-    #Exame                 = db.relationship("Exame",foreign_keys=cpf)
 
     def __init__(self, cpf, glicemia=0, cafe=0, almoco=0, janta=0, data = dt.now()):
         self.cpf = cpf
