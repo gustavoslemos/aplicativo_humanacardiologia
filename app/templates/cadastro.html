@@ -1,0 +1,176 @@
+{% from "./macros.html" import FlashMessage with context %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <title>Cadastro</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+
+
+
+<body>
+<p></p>
+
+<div class="container">
+ 
+        <form action="/cadastro" method="POST" enctype="multipart/form-data" >
+            {{ form.csrf_token }}
+
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Procedimento</label>
+              {{ form.procedimento(class="form-control",placeholder="Escreva o procedimento aqui") }}
+              {% if form.errors.procedimento %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form.errors.procedimento }}
+                </div>
+              {% endif %}
+            </div>
+
+            
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Data</label>
+                {{ form.data(class="form-control", placeholder="Ex.: dd/mm/aaaa", maxlength="10",onkeypress="mascaraData(this)") }}
+                {% if form.errors.data %}
+                  <div class="alert alert-danger" role="alert">
+                      {{ form.errors.data }}
+                  </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Nome</label>
+                {{ form.nome(class="form-control",placeholder="Escreva o nome do paciente aqui") }}
+                {% if form.errors.nome %}
+                  <div class="alert alert-danger" role="alert">
+                      {{ form.errors.nome }}
+                  </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="exampleFormControlInput1">CPF</label>
+                {{ form.cpf(class="form-control",placeholder="Escreva o cpf do paciente aqui") }}
+                {% if form.errors.cpf %}
+                  <div class="alert alert-danger" role="alert">
+                      {{ form.errors.cpf }}
+                  </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Selecione o Video do Exame</label>
+                {{ form.video(class="form-control") }}
+                {% if form.errors.video %}
+                  <div class="alert alert-danger" role="alert">
+                      {{ form.errors.video }}
+                  </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Selecione o PDF do Exame</label>
+                {{ form.pdf(class="form-control") }}
+                {% if form.errors.pdf %}
+                  <div class="alert alert-danger" role="alert">
+                      {{ form.errors.pdf }}
+                  </div>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-success btn-block">Cadastrar</button>
+          </form>
+         {{ FlashMessage() }}
+</div>
+
+
+
+
+
+
+
+
+<script>
+    function mascaraData(val) {
+        var pass = val.value;
+        var expr = /[0123456789]/;
+      
+        for (i = 0; i < pass.length; i++) {
+          // charAt -> retorna o caractere posicionado no índice especificado
+          var lchar = val.value.charAt(i);
+          var nchar = val.value.charAt(i + 1);
+      
+          if (i == 0) {
+            // search -> retorna um valor inteiro, indicando a posição do inicio da primeira
+            // ocorrência de expReg dentro de instStr. Se nenhuma ocorrencia for encontrada o método retornara -1
+            // instStr.search(expReg);
+            if ((lchar.search(expr) != 0) || (lchar > 3)) {
+              val.value = "";
+            }
+      
+          } else if (i == 1) {
+      
+            if (lchar.search(expr) != 0) {
+              // substring(indice1,indice2)
+              // indice1, indice2 -> será usado para delimitar a string
+              var tst1 = val.value.substring(0, (i));
+              val.value = tst1;
+              continue;
+            }
+      
+            if ((nchar != '/') && (nchar != '')) {
+              var tst1 = val.value.substring(0, (i) + 1);
+      
+              if (nchar.search(expr) != 0)
+                var tst2 = val.value.substring(i + 2, pass.length);
+              else
+                var tst2 = val.value.substring(i + 1, pass.length);
+      
+              val.value = tst1 + '/' + tst2;
+            }
+      
+          } else if (i == 4) {
+      
+            if (lchar.search(expr) != 0) {
+              var tst1 = val.value.substring(0, (i));
+              val.value = tst1;
+              continue;
+            }
+      
+            if ((nchar != '/') && (nchar != '')) {
+              var tst1 = val.value.substring(0, (i) + 1);
+      
+              if (nchar.search(expr) != 0)
+                var tst2 = val.value.substring(i + 2, pass.length);
+              else
+                var tst2 = val.value.substring(i + 1, pass.length);
+      
+              val.value = tst1 + '/' + tst2;
+            }
+          }
+      
+          if (i >= 6) {
+            if (lchar.search(expr) != 0) {
+              var tst1 = val.value.substring(0, (i));
+              val.value = tst1;
+            }
+          }
+        }
+      
+        if (pass.length > 10)
+          val.value = val.value.substring(0, 10);
+        return true;
+      }
+
+    </script>
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!-- PAGINA DE LOGIN -->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>Login</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/sign-in/">
+
+    <!-- Bootstrap core CSS -->
+<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
+  </head>
+  <body class="text-center">
+    <form action="/paciente/{{ pessoa[0].cpf }}" method="POST" class="form-signin">
+        {{ form.csrf_token }}
+ <p><img class="mb-4" src={{ url_for('static', filename='img/humana_logo.png') }} alt="" width="300" height="72"></p>
+
+  
+
+
+ 
+  {{ form.password(class="form-control") }}
+  {% if form.errors.password %}
+    <div class="alert alert-danger" role="alert">
+        {{ form.errors.password }}
+    </div>
+  {% endif %}
+       
+  {% block content %}
+  {% endblock %}
+  
+  <button class="btn btn-lg btn-primary btn-block" type="submit" style="background-color:#5b3e30;border-color:#5b3e30">Entrar</button>
+  <p class="mt-5 mb-3 text-muted">Jacobina - BA</p>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+      <hr>
+      <div class="alert alert-danger" role="alert">
+          <h4 class="alert-heading">Ops!</h4>
+          <ul class="flashes">
+              {% for message in messages %}
+              <li>{{message}}</li>
+              {% endfor %}
+          </ul>
+          <hr>
+          <p class="mb-0">Caso precise de ajuda contate o administrador do sistema!</p>
+      </div>
+  {% endif %}
+{% endwith %}
+</form>
+</body>
+</html>
+
+

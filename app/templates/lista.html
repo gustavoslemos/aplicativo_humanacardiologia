@@ -1,0 +1,167 @@
+
+{% from "./macros.html" import FlashMessage with context %}
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Resultado dos Exames</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/pricing/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/pricing.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </head>
+  
+    <style>
+      td{
+        text-align: center;
+        vertical-align: middle;
+      }
+      tr{
+        text-align: center;
+        vertical-align: middle;
+      }
+     
+      thead {
+        color:white
+      }
+
+      tbody {
+        -webkit-box-shadow: 9px 7px 5px rgba(50, 50, 50, 0.77);
+		    -moz-box-shadow:    9px 7px 5px rgba(50, 50, 50, 0.77);
+		    box-shadow:         9px 7px 5px rgba(50, 50, 50, 0.77);
+        border-radius: 10px;
+      }
+
+      footer {
+        text-align: center;
+        padding: 3px;
+        
+        color: rgb(2, 2, 2);
+        box-shadow: 0 2px 4px 0 rgb(0, 0, 0);
+      }
+      
+      nav {
+        box-shadow: 0 2px 4px 0 rgba(50, 50, 50, 0.77);
+      }
+      .btn-primary {
+        color: #ffffff;
+        background-color: #1707ff;
+        border-color: #fafafa00;
+      }
+      .btn-secondary {
+        color: rgb(255, 255, 255);
+        background-color: #48a062;
+        border-color: #00000000;
+    }
+   
+      
+    </style>
+
+  </head>
+
+
+  <body>
+
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-light bg-light">
+  <h5 class="my-0 mr-md-auto font-weight-normal"><img src={{ url_for('static', filename='img/heart.png' ) }} width="48px" style= "padding-bottom: 5px;"></h5>
+  <form class="form-inline">
+    <a href="https://api.whatsapp.com/send?phone=+557488562207"><img src="/static/img/whatsapp_logo.png" width="38px" style="padding-left: 10px;padding-right: 10px;width: 60px;"></a>
+    <a href="https://t.me/Cardiohumana"><img src="/static/img/telegram_logo.png" width="30px" style="padding-left: 10px;padding-right: 10px;width: 50px;"></a>
+    <a href="mailto:cardiologiahumanajacobina@gmail.com?Subject=Título%20da%20mensagem"><img src="/static/img/email_colorido.png" width="35px" style="padding-left: 12px;padding-right: 10px;width: 56px;"></a>
+  </form>
+</nav>
+   
+
+
+<!-- MEIO -->
+      <div class="bg-light p-3 rounded">
+          <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <h1 class="jumbotron-heading">Bem-vindo(a), {{ pessoa[0].nome }}.</h1>
+            <font style="font-size:18px; font-family:Garmond">Aqui você vai encontrar seus resultados de exames feitos pela Clínica Humana - Cardiologia</font>
+            <font style="font-size:16px; font-family:Garmond">Para acessar o formulário para preenchimento da Pressão Arterial e Glicemia, clique aqui:</font>
+            <p></p>
+            <p>
+              <a href="{{ url_for('formulario_pressao',cpf=pessoa[0].cpf) }}" class="btn btn-primary my-2">Formulário para Pressão Arterial Residencial</a>
+              <a href="{{ url_for('formulario_glicemia',cpf=pessoa[0].cpf) }}" class="btn btn-secondary my-2">Formulário para Glicemia</a>
+            </p>
+      
+          </div>
+      </div>  
+      
+
+<!-- TABELA -->
+      <div class="container" style="padding-top: 15px; padding-bottom: 15px;">
+        <p></p>
+        <table class="table table-striped">
+          <thead bgcolor="#524747">
+            <tr>
+              <th scope="col"><font style="font-size:17px; font-family:Comic-Sans">Data</font></th>
+              <th scope="col"><font style="font-size:17px; font-family:Comic-Sans">Procedimento</font></th>
+              <th scope="col"><font style="font-size:17px; font-family:Comic-Sans">Video</font></th>
+              <th scope="col"><font style="font-size:17px; font-family:Comic-Sans">Imagens</font></th>
+            </tr>
+          </thead>
+    
+          <tbody>
+            {% for reg in pessoa %}
+            <tr>
+    
+              <td><font style="font-size:15px; font-family:Comic-Sans">{{ reg.data_formatada() }}</font></td>
+              <td><b><font style="font-size:15px; font-family:Comic-Sans">{{ reg.procedimento }}</font></b></td>
+    
+              <td>
+                <a href={{ reg.url_video() }}>
+                  <img src={{ url_for('static', filename='img/video1.png') }} width="50px" align="center">
+                </a>
+              </td>
+    
+              <td><a href={{ reg.url_pdf() }}>
+                  <img src={{ url_for('static', filename='img/pdf1.png') }} width="40px" align="center">
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    <br/>
+    <br/>
+
+
+        
+</div>
+
+
+<footer style="padding-top: 15px;">
+
+            <h4>Laudenor Pereira Lemos Junior</h4>
+            <p>Título de Especialista em Cardiologia – SBC / AMB Certificado de Atuação em Ecocardiografia – DIC / SBC / AMB CRM-BA 20.278 | RQE 12.506 | RQE 12.742</p>
+            <p></p>
+           
+      
+      <h6><img class="mb-4" src="/static/img/humana_logo.png" alt="" width="300" height="72"></h6>
+  
+
+</footer>    
+
+
+
+            
+      
+
+  </body>
+
+</html>
