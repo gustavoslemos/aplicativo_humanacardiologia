@@ -10,8 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}\\run.py",
             "console": "integratedTerminal",
-            "args" : ["runserver"],
-            
+            "args" : ["runserver"]
         }
     ]
 }

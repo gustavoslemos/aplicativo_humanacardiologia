@@ -8,10 +8,10 @@ from datetime import datetime as dt
 class Exame(db.Model):
     __tablename__ = "exame"
 
-    id          = Column(Integer, primary_key=True)
+    #id          = Column(Integer, autoincrement=True, primary_key=True)
+    cpf         = Column(String(14),nullable=False,primary_key=True)
     video       = Column(String,nullable=False)
     nome        = Column(String,nullable=False)
-    cpf         = Column(String(14),nullable=False)
     password    = Column(String,nullable=False)
     pdf         = Column(String,nullable=False)
     procedimento= Column(String,nullable=False)
@@ -36,7 +36,7 @@ class Exame(db.Model):
         return "<Exame %r>" % self.id
     
     def save(self):
-        if self.id is None:
+        if self.cpf is None:
             db.session.add(self)
         db.session.commit()
     
@@ -47,6 +47,7 @@ class Exame(db.Model):
     
     def data_formatada(self):
         return self.data.strftime("%d/%m/%Y")
+
 
 class DadosPacientePressao(db.Model):
     __tablename__ = "dadosPacientePressao"

@@ -9,6 +9,7 @@ from app.models.tables import DadosPacienteGlicemia, DadosPacientePressao
 class LoginForm(FlaskForm):
     password = PasswordField("password", validators=[DataRequired()])
 
+
 def ValidFloat():
     def ValidFloat_validator(form, field):
         try:
@@ -25,6 +26,7 @@ class PrecadastroForm(FlaskForm):
     pdf             = StringField("pdf", validators=[DataRequired()])
     video           = StringField("video", validators=[DataRequired()])
     data            = DateField('Start Date', format='%d/%m/%Y', validators=[DataRequired()])
+
 
 class DadosPacienteFormPressao(FlaskForm):
     cpf                         = HiddenField("cpf")
