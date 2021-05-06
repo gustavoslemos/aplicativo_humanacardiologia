@@ -8,6 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask.helpers import url_for
 from app.models.forms import PrecadastroForm,DadosPacienteFormPressao, DadosPacienteFormGlicemia
 from flask import Flask, request, url_for, redirect, render_template
+from datetime import datetime
 import json
 
 
@@ -16,9 +17,13 @@ def index():
     form = PrecadastroForm()
     if form.validate_on_submit():
         senha = form.cpf.data[0:3]
-        pc = Exame(form.video.data,form.nome.data,form.cpf.data,senha,form.pdf.data,form.procedimento.data,form.data.data)
+        data = datetime.combine(form.data.data, datetime.min.time()) # converte pada datetime
+        pc = Exame(form.video.data,form.nome.data,form.cpf.data,senha,form.pdf.data,form.procedimento.data,data)
         pc.save()
+    
         flash("Cadastro realizado com sucesso","success")
+        print(Exame.query.all())
+     
     return render_template('cadastro.html',form=form)
 
 
@@ -33,9 +38,12 @@ def login(cpf):
         else:
             flash("Senha nao confere! caso tenha esquecido contate-nos!")
 
+    if not ex:
+        flash("Usuario nao encontrado");
+
     return render_template('exames.html',pessoa=ex,form = form)
 
-## Caso eu queira por link em alguma palavra no site
+
 
 @app.route("/formulario_pressao/<string:cpf>",methods=['GET','POST'])
 def formulario_pressao(cpf):

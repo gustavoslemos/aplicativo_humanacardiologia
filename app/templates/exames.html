@@ -35,14 +35,14 @@
     <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
   </head>
   <body class="text-center">
-    <form action="/paciente/{{ pessoa[0].cpf }}" method="POST" class="form-signin">
+    <form action="/paciente/{{ '-' if not pessoa else pessoa[0].cpf }}" method="POST" class="form-signin">
         {{ form.csrf_token }}
  <p><img class="mb-4" src={{ url_for('static', filename='img/humana_logo.png') }} alt="" width="300" height="72"></p>
 
   
 
 
- 
+ {% if pessoa %}
   {{ form.password(class="form-control") }}
   {% if form.errors.password %}
     <div class="alert alert-danger" role="alert">
@@ -55,6 +55,9 @@
   
   <button class="btn btn-lg btn-primary btn-block" type="submit" style="background-color:#5b3e30;border-color:#5b3e30">Entrar</button>
   <p class="mt-5 mb-3 text-muted">Jacobina - BA</p>
+  {% endif %}
+
+
   {% with messages = get_flashed_messages() %}
   {% if messages %}
       <hr>
