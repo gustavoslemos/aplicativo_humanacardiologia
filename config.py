@@ -16,7 +16,7 @@ PWD = "Ecgmapaholter2021!"
 
 drivers = [item for item in pyodbc.drivers()] 
 driver = drivers[-1]
-driver = "SQL+Server"
+# driver = "SQL+Server"
 
 SQLALCHEMY_DATABASE_URI = f"mssql+pyodbc://{USER}:{PWD}@{SERVER}/{DB}?driver={driver}"
 # SQLALCHEMY_DATABASE_URI = 'sqlite:///storage.db'
